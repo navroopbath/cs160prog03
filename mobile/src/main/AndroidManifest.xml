@@ -24,7 +24,7 @@
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".preziHub"
+            android:name=".timer"
             android:label="@string/title_activity_prezi_hub"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>

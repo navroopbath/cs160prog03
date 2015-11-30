@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_prezi_hub"
-    tools:context="com.example.chen.presentationproject.preziHub">
+    tools:context="com.example.chen.presentationproject.timer">
 
     <ImageButton
         android:id="@+id/preziHub"
