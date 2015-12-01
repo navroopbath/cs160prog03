@@ -24,6 +24,21 @@
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
+            android:name=".Homedropdown"
+            android:label="homedropdown"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".type"
+            android:label="type"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".doneEdit"
+            android:label="doneEdit"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
             android:name=".timer"
             android:label="@string/title_activity_prezi_hub"
             android:theme="@style/AppTheme.NoActionBar" >

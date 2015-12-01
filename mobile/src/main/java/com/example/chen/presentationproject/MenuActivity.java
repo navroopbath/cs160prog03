@@ -15,6 +15,7 @@ public class MenuActivity extends AppCompatActivity {
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+    private int tapnum = 0;
     private GestureDetector gestureDetector;
     View.OnTouchListener gestureListener;
 
@@ -35,9 +36,10 @@ public class MenuActivity extends AppCompatActivity {
     class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapUp(MotionEvent ev) {
+
             String movementDetected =ev.toString();
             Toast.makeText(getApplicationContext(), "Going to Edit Now", Toast.LENGTH_LONG).show();
-            Intent goToEdit = new Intent(MenuActivity.this, EditPrezi.class);
+            Intent goToEdit = new Intent(MenuActivity.this, Homedropdown.class);
             MenuActivity.this.startActivity(goToEdit);
             return true;
         }
