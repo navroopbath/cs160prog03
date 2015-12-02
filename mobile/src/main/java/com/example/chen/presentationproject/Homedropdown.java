@@ -9,6 +9,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
+import com.google.android.gms.wearable.Wearable;
+
 public class Homedropdown extends AppCompatActivity {
 
     private ImageButton homedropdown;
@@ -17,6 +23,8 @@ public class Homedropdown extends AppCompatActivity {
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
     private GestureDetector gestureDetector;
     View.OnTouchListener gestureListener;
+    private GoogleApiClient mApiClient;
+    private static final String START_ACTIVITY = "/start_activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +39,45 @@ public class Homedropdown extends AppCompatActivity {
             }
         };
         homedropdown.setOnTouchListener(gestureListener);
+        initGoogleApiClient();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mApiClient.disconnect();
+    }
+
+    private void initGoogleApiClient() {
+        mApiClient = new GoogleApiClient.Builder( this )
+                .addApi( Wearable.API )
+                .build();
+
+        mApiClient.connect();
+    }
+
+    private void sendMessage( final String path, final String text ) {
+        new Thread( new Runnable() {
+            @Override
+            public void run() {
+                NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes( mApiClient ).await();
+                for(Node node : nodes.getNodes()) {
+                    MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(
+                            mApiClient, node.getId(), path, text.getBytes() ).await();
+                }
+            }
+        }).start();
     }
 
     class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapUp(MotionEvent ev) {
             String movementDetected =ev.toString();
-            Intent goToTimer = new Intent(Homedropdown.this, EditPrezi.class);
-            Homedropdown.this.startActivity(goToTimer);
+            Intent goToEdit = new Intent(Homedropdown.this, EditPrezi.class);
+            Homedropdown.this.startActivity(goToEdit);
             return true;
         }
+
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             try {
@@ -53,6 +90,7 @@ public class Homedropdown extends AppCompatActivity {
                     Homedropdown.this.startActivity(goToStats);
                 }
                 else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    sendMessage(START_ACTIVITY, "");
                     Intent goToTimer = new Intent(Homedropdown.this, timer.class);
                     Homedropdown.this.startActivity(goToTimer);
                 }
