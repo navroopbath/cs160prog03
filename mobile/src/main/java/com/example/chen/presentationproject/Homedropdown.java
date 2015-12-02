@@ -37,7 +37,6 @@ public class Homedropdown extends AppCompatActivity {
         @Override
         public boolean onSingleTapUp(MotionEvent ev) {
             String movementDetected =ev.toString();
-            Toast.makeText(getApplicationContext(), "Going to Timer Now", Toast.LENGTH_LONG).show();
             Intent goToTimer = new Intent(Homedropdown.this, EditPrezi.class);
             Homedropdown.this.startActivity(goToTimer);
             return true;
@@ -45,14 +44,19 @@ public class Homedropdown extends AppCompatActivity {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             try {
-                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
+                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
                     return false;
+                }
                 // right to left swipe
                 if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    Toast.makeText(Homedropdown.this, "Left Swipe", Toast.LENGTH_SHORT).show();
-                    Intent goToMenu = new Intent(Homedropdown.this, MenuActivity.class);
-                    Homedropdown.this.startActivity(goToMenu);
+                    Intent goToStats = new Intent(Homedropdown.this, statsPrezi.class);
+                    Homedropdown.this.startActivity(goToStats);
                 }
+                else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    Intent goToTimer = new Intent(Homedropdown.this, timer.class);
+                    Homedropdown.this.startActivity(goToTimer);
+                }
+
             } catch (Exception e) {
                 // nothing
             }

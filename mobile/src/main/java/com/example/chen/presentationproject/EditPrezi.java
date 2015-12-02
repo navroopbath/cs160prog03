@@ -41,7 +41,6 @@ public class EditPrezi extends AppCompatActivity {
         @Override
         public boolean onSingleTapUp(MotionEvent ev) {
             String movementDetected =ev.toString();
-            Toast.makeText(getApplicationContext(), "Going to Timer Now", Toast.LENGTH_LONG).show();
             Intent goToTimer = new Intent(EditPrezi.this, type.class);
             EditPrezi.this.startActivity(goToTimer);
             return true;
@@ -53,7 +52,6 @@ public class EditPrezi extends AppCompatActivity {
                     return false;
                 // right to left swipe
                 if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    Toast.makeText(EditPrezi.this, "Left Swipe", Toast.LENGTH_SHORT).show();
                     Intent goToMenu = new Intent(EditPrezi.this, MenuActivity.class);
                     EditPrezi.this.startActivity(goToMenu);
                 }

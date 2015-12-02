@@ -9,6 +9,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
+import com.google.android.gms.wearable.Wearable;
+
 public class MenuActivity extends AppCompatActivity {
 
     private ImageButton menuImage;
@@ -18,6 +24,9 @@ public class MenuActivity extends AppCompatActivity {
     private int tapnum = 0;
     private GestureDetector gestureDetector;
     View.OnTouchListener gestureListener;
+    private GoogleApiClient mApiClient;
+    private static final String START_ACTIVITY = "/start_activity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +40,34 @@ public class MenuActivity extends AppCompatActivity {
             }
         };
         menuImage.setOnTouchListener(gestureListener);
+        initGoogleApiClient();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mApiClient.disconnect();
+    }
+
+    private void initGoogleApiClient() {
+        mApiClient = new GoogleApiClient.Builder( this )
+                .addApi( Wearable.API )
+                .build();
+
+        mApiClient.connect();
+    }
+
+    private void sendMessage( final String path, final String text ) {
+        new Thread( new Runnable() {
+            @Override
+            public void run() {
+                NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes( mApiClient ).await();
+                for(Node node : nodes.getNodes()) {
+                    MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(
+                            mApiClient, node.getId(), path, text.getBytes() ).await();
+                }
+            }
+        }).start();
     }
 
     class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
@@ -38,30 +75,9 @@ public class MenuActivity extends AppCompatActivity {
         public boolean onSingleTapUp(MotionEvent ev) {
 
             String movementDetected =ev.toString();
-            Toast.makeText(getApplicationContext(), "Going to Edit Now", Toast.LENGTH_LONG).show();
             Intent goToEdit = new Intent(MenuActivity.this, Homedropdown.class);
             MenuActivity.this.startActivity(goToEdit);
             return true;
-        }
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            try {
-                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
-                    return false;
-                // right to left swipe
-                if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    Toast.makeText(MenuActivity.this, "Left Swipe", Toast.LENGTH_SHORT).show();
-                    Intent goToStats = new Intent(MenuActivity.this, statsPrezi.class);
-                    MenuActivity.this.startActivity(goToStats);
-                }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    Toast.makeText(MenuActivity.this, "Right Swipe", Toast.LENGTH_SHORT).show();
-                    Intent goToTimer = new Intent(MenuActivity.this, timer.class);
-                    MenuActivity.this.startActivity(goToTimer);
-                }
-            } catch (Exception e) {
-                // nothing
-            }
-            return false;
         }
     }
 }

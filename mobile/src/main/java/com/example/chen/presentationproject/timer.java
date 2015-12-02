@@ -39,7 +39,6 @@ public class timer extends AppCompatActivity {
         @Override
         public boolean onSingleTapUp(MotionEvent ev) {
             String movementDetected =ev.toString();
-            Toast.makeText(getApplicationContext(), "Going to Stats Now", Toast.LENGTH_LONG).show();
             Intent goToStats = new Intent(timer.this, statsPrezi.class);
             timer.this.startActivity(goToStats);
             return true;

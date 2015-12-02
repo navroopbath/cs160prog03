@@ -37,7 +37,6 @@ public class doneEdit extends AppCompatActivity {
         @Override
         public boolean onSingleTapUp(MotionEvent ev) {
             String movementDetected =ev.toString();
-            Toast.makeText(getApplicationContext(), "Going to Timer Now", Toast.LENGTH_LONG).show();
             Intent goToTimer = new Intent(doneEdit.this, timer.class);
             doneEdit.this.startActivity(goToTimer);
             return true;
@@ -49,7 +48,6 @@ public class doneEdit extends AppCompatActivity {
                     return false;
                 // right to left swipe
                 if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    Toast.makeText(doneEdit.this, "Left Swipe", Toast.LENGTH_SHORT).show();
                     Intent goToMenu = new Intent(doneEdit.this, MenuActivity.class);
                     doneEdit.this.startActivity(goToMenu);
                 }

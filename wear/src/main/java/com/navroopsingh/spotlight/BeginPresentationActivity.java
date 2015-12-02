@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class BeginPresentationActivity extends WearableActivity {
+public class BeginPresentationActivity extends WearableActivity{
 
     public final static String BEGIN_PRESENTATION_MESSAGE = "com.navroopsingh.spotlight.BEGIN_PRESENTATION_MESSAGE";
 
@@ -29,7 +29,7 @@ public class BeginPresentationActivity extends WearableActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_begin_presentation);
         setAmbientEnabled();
-
+        Intent beginIntent = getIntent();
         mContainerView = (BoxInsetLayout) findViewById(R.id.container);
     }
 

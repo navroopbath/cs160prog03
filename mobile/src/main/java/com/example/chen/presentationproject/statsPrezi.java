@@ -21,7 +21,6 @@ public class statsPrezi extends AppCompatActivity {
         statsImage.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Toast.makeText(getApplicationContext(), "Menu", Toast.LENGTH_LONG).show();
                 Intent goToHome = new Intent(statsPrezi.this, MenuActivity.class);
                 statsPrezi.this.startActivity(goToHome);
                 return true;
