@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.BoxInsetLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ public class BeginPresentationActivity extends WearableActivity{
         setContentView(R.layout.activity_begin_presentation);
         setAmbientEnabled();
         Intent beginIntent = getIntent();
+        Log.d("Began Watch", "Watch should have started");
         mContainerView = (BoxInsetLayout) findViewById(R.id.container);
     }
 

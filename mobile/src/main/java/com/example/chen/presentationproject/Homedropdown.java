@@ -57,6 +57,7 @@ public class Homedropdown extends AppCompatActivity {
     }
 
     private void sendMessage( final String path, final String text ) {
+        Toast.makeText(Homedropdown.this, "Starting watch", Toast.LENGTH_SHORT).show();
         new Thread( new Runnable() {
             @Override
             public void run() {
